@@ -22,7 +22,7 @@ public class Asteroid : MonoBehaviour
     {
         if (movement.direction == Movement.Direction.UP)
         {
-            if (GetScreenPosition(rb.position).y >= Screen.height)
+            if (GetScreenPosition(rb.position).y >= Screen.height || GetScreenPosition(rb.position).x >= Screen.width)
             {
                 DestroyOutOfBounds();
 
@@ -42,7 +42,7 @@ public class Asteroid : MonoBehaviour
 
         if (movement.direction == Movement.Direction.DOWN)
         {
-            if (GetScreenPosition(rb.position).y <= 0)
+            if (GetScreenPosition(rb.position).y <= 0 || GetScreenPosition(rb.position).x >= 0)
             {
                 DestroyOutOfBounds();
 
@@ -53,7 +53,7 @@ public class Asteroid : MonoBehaviour
 
             if (movement.diagonal)
             {
-                position.x += xSpeed * Time.deltaTime;
+                position.x -= xSpeed * Time.deltaTime;
             }
 
             position.y -= ySpeed * Time.deltaTime;
@@ -63,7 +63,7 @@ public class Asteroid : MonoBehaviour
 
         if (movement.direction == Movement.Direction.RIGHT)
         {
-            if (GetScreenPosition(rb.position).x >= Screen.width)
+            if (GetScreenPosition(rb.position).x >= Screen.width || GetScreenPosition(rb.position).y >= Screen.height)
             {
                 DestroyOutOfBounds();
 
@@ -83,7 +83,7 @@ public class Asteroid : MonoBehaviour
 
         if (movement.direction == Movement.Direction.LEFT)
         {
-            if (GetScreenPosition(rb.position).x <= 0)
+            if (GetScreenPosition(rb.position).x <= 0 || GetScreenPosition(rb.position).y >= Screen.height)
             {
                 DestroyOutOfBounds();
 

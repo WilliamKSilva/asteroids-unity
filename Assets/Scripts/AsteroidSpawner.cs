@@ -24,7 +24,6 @@ public class AsteroidSpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(asteroids.Count);
         timer += Time.deltaTime;
 
         if (timer >= 2)
@@ -95,6 +94,8 @@ public class AsteroidSpawner : MonoBehaviour
         {
             asteroids.RemoveAt(asteroidIndex);
         }
+
+        Destroy(asteroid.rb.gameObject);
     }
 
     private class Position
