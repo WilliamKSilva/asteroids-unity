@@ -12,10 +12,6 @@ public class Asteroid : MonoBehaviour
     public Movement movement = new Movement();
     public float xSpeed = 20.0f;
     public float ySpeed = 20.0f;
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
 
     // Update is called once per frame
     void Update()
