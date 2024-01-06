@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    private readonly float thrust = 0.5f;
+    private readonly float thrust = 4.0f;
     private readonly float rotation = 150.0f;
 
     public Rigidbody2D rb;
+    public Projectile projectilePrefab;
 
     // Start is called before the first frame update
     void Start()
@@ -17,6 +18,15 @@ public class Player : MonoBehaviour
 
     // Update is called once per frame
     void Update()
+    {
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
+            Shot();
+        }
+    }
+
+    // Physics related stuff goes here apparently
+    private void FixedUpdate()
     {
         if (Input.GetKey(KeyCode.W))
         {
@@ -32,5 +42,12 @@ public class Player : MonoBehaviour
         {
             transform.Rotate(0, 0, rotation * Time.deltaTime);
         }
+    }
+
+    void Shot()
+    {
+        Vector3 projectilePosition = this.transform.position;
+        projectilePosition += this.transform.up * Projectile.yPositionUpwardsPlayer;
+        GameObject.Instantiate(projectilePrefab, projectilePosition, this.transform.rotation);
     }
 }
