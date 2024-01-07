@@ -5,20 +5,14 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
     public Rigidbody2D rb;
-    float speed = 2f;
+    private readonly float speed = 400.0f;
     public static float yPositionUpwardsPlayer = 1.0f;
 
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("Instantiated");
         GameObject player = GameObject.Find("Player");
-        rb.velocity = player.transform.up;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
+        Rigidbody2D playerRb = player.GetComponent<Rigidbody2D>();
     }
 
     void FixedUpdate()
@@ -36,17 +30,20 @@ public class Projectile : MonoBehaviour
     void Move()
     {
         // Position
-        rb.velocity *= speed;
+        rb.velocity = speed * Time.fixedDeltaTime * rb.transform.up;
     }
 
     bool OutOfBounds()
     {
-        bool xPositiveAxis = rb.position.x >= Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, 0)).x;
-        bool xNegativeAxis = rb.position.x <= Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).x;
+        return
+            GetScreenPosition(rb.position).x >= 1920
+            || GetScreenPosition(rb.position).x <= -5
+            || GetScreenPosition(rb.position).y >= 1080
+            || GetScreenPosition(rb.position).y <= -5;
+    }
 
-        bool yPositiveAxis = rb.position.y >= Camera.main.ScreenToWorldPoint(new Vector2(0, Screen.height)).y;
-        bool yNegativeAxis = rb.position.y <= Camera.main.ScreenToWorldPoint(new Vector2(Screen.height, 0)).y;
-
-        return xPositiveAxis || xNegativeAxis || yPositiveAxis || yNegativeAxis;
+    Vector2 GetScreenPosition(Vector2 position)
+    {
+        return Camera.main.WorldToScreenPoint(position);
     }
 }

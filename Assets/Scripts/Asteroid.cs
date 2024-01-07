@@ -10,11 +10,14 @@ public class Asteroid : MonoBehaviour
     public Rigidbody2D rb;
     public AsteroidType type;
     public Movement movement = new Movement();
-    public float xSpeed = 20.0f;
-    public float ySpeed = 20.0f;
+    private float xSpeed = 0.5f;
+    private float ySpeed = 0.5f;
 
-    // Update is called once per frame
-    void Update()
+    void Start()
+    {
+    }
+
+    private void FixedUpdate()
     {
         if (movement.direction == Movement.Direction.UP)
         {
@@ -29,10 +32,10 @@ public class Asteroid : MonoBehaviour
 
             if (movement.diagonal)
             {
-                position.x += xSpeed * Time.deltaTime;
+                position.x += xSpeed * Time.fixedDeltaTime;
             }
 
-            position.y += ySpeed * Time.deltaTime;
+            position.y += ySpeed * Time.fixedDeltaTime;
             rb.MovePosition(position);
         }
 
@@ -49,10 +52,10 @@ public class Asteroid : MonoBehaviour
 
             if (movement.diagonal)
             {
-                position.x -= xSpeed * Time.deltaTime;
+                position.x -= xSpeed * Time.fixedDeltaTime;
             }
 
-            position.y -= ySpeed * Time.deltaTime;
+            position.y -= ySpeed * Time.fixedDeltaTime;
 
             rb.MovePosition(position);
         }
@@ -70,10 +73,10 @@ public class Asteroid : MonoBehaviour
 
             if (movement.diagonal)
             {
-                position.y += ySpeed * Time.deltaTime;
+                position.y += ySpeed * Time.fixedDeltaTime;
             }
 
-            position.x += xSpeed * Time.deltaTime;
+            position.x += xSpeed * Time.fixedDeltaTime;
             rb.MovePosition(position);
         }
 
@@ -90,10 +93,10 @@ public class Asteroid : MonoBehaviour
 
             if (movement.diagonal)
             {
-                position.y += ySpeed * Time.deltaTime;
+                position.y += ySpeed * Time.fixedDeltaTime;
             }
 
-            position.x -= xSpeed * Time.deltaTime;
+            position.x -= xSpeed * Time.fixedDeltaTime;
             rb.MovePosition(position);
         }
     }
@@ -112,6 +115,16 @@ public class Asteroid : MonoBehaviour
     {
         BIG,
         MEDIUM
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Debug.Log("Projectile Collision");
+        if (collision.gameObject.name == "Projectile")
+        {
+            Destroy(rb.gameObject);
+            Destroy(collision.gameObject);
+        }
     }
 
     public class Movement
@@ -138,10 +151,6 @@ public class Asteroid : MonoBehaviour
 
             // Bottom with random X
             return Direction.UP;
-
-            //Array directions = Enum.GetValues(typeof(Direction));
-            //int index = UnityEngine.Random.Range(0, directions.Length);
-            //return (Direction) directions.GetValue(index);
         }
 
         public static bool GetRandomDiagonal()

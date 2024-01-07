@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1078444242020146792}
   - component: {fileID: 674759895949301308}
   - component: {fileID: 6288424516459815449}
+  - component: {fileID: 8979484934537312521}
   m_Layer: 0
   m_Name: Asteroid
   m_TagString: Untagged
@@ -111,7 +112,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!114 &6288424516459815449
 MonoBehaviour:
@@ -130,5 +131,55 @@ MonoBehaviour:
       m_Calls: []
   rb: {fileID: 674759895949301308}
   type: 0
-  xSpeed: 20
-  ySpeed: 20
+--- !u!68 &8979484934537312521
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9022424462408904538}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_EdgeRadius: 0
+  m_Points:
+  - {x: -0.61824644, y: 0.060970165}
+  - {x: -0.5593532, y: -0.27775294}
+  - {x: -0.25627503, y: -0.5125692}
+  - {x: -0.085440874, y: -0.35632372}
+  - {x: 0.1619685, y: -0.28542632}
+  - {x: 0.45730186, y: -0.19707}
+  - {x: 0.4780597, y: -0.17952326}
+  - {x: 0.61693627, y: 0.27436575}
+  - {x: 0.59322566, y: 0.30823806}
+  - {x: 0.081753686, y: 0.50469756}
+  - {x: 0.081753686, y: 0.50469756}
+  - {x: -0.409855, y: 0.4301784}
+  - {x: -0.6164761, y: 0.054195713}
+  m_AdjacentStartPoint: {x: 0, y: 0}
+  m_AdjacentEndPoint: {x: 0, y: 0}
+  m_UseAdjacentStartPoint: 0
+  m_UseAdjacentEndPoint: 0

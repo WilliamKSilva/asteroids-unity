@@ -35,12 +35,12 @@ public class Player : MonoBehaviour
 
         if (Input.GetKey(KeyCode.A))
         {
-            transform.Rotate(0, 0, -rotation * Time.deltaTime);
+            rb.MoveRotation(rb.rotation + -rotation * Time.deltaTime);
         }
 
         if (Input.GetKey(KeyCode.D))
         {
-            transform.Rotate(0, 0, rotation * Time.deltaTime);
+            rb.MoveRotation(rb.rotation + rotation * Time.deltaTime);
         }
     }
 
@@ -48,6 +48,7 @@ public class Player : MonoBehaviour
     {
         Vector3 projectilePosition = this.transform.position;
         projectilePosition += this.transform.up * Projectile.yPositionUpwardsPlayer;
-        GameObject.Instantiate(projectilePrefab, projectilePosition, this.transform.rotation);
+        Projectile projectile = GameObject.Instantiate(projectilePrefab, projectilePosition, this.transform.rotation);
+        projectile.name = "Projectile";
     }
 }

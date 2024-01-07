@@ -10,6 +10,7 @@ public class AsteroidSpawner : MonoBehaviour
     public Asteroid asteroid;
     UnityEvent<Asteroid> asteroidDestroyedEvent;
     private Sprite[] sprites;
+    private Sprite spriteSpecific;
     private List<Position> positions = new List<Position>();
     private List<Asteroid> asteroids = new List<Asteroid>();
     float timer = 0f;
@@ -17,6 +18,7 @@ public class AsteroidSpawner : MonoBehaviour
     void Start()
     {
         sprites = Resources.LoadAll<Sprite>("Asteroids");
+        spriteSpecific = Resources.Load<Sprite>("Asteroids/meteorBrown_big2");
         asteroidDestroyedEvent = new UnityEvent<Asteroid>();
         asteroidDestroyedEvent.AddListener(AsteroidDestroyed);
     }
@@ -39,15 +41,15 @@ public class AsteroidSpawner : MonoBehaviour
         BuildPositions();
 
         Sprite randomSprite = sprites[Random.Range(0, sprites.Length)];
-        Asteroid randomAsteroid = GameObject.Instantiate(asteroid, transform.position, transform.rotation);
+        Position randomPosition = positions[Random.Range(0, positions.Count)];
+        Asteroid randomAsteroid = GameObject.Instantiate(asteroid, randomPosition.position, transform.rotation);
+        randomAsteroid.name = "Asteroid";
         SpriteRenderer spriteRenderer = randomAsteroid.GetComponent<SpriteRenderer>();
-        spriteRenderer.sprite = randomSprite;
+        spriteRenderer.sprite = spriteSpecific;
         randomAsteroid.type = Asteroid.AsteroidType.BIG;
 
-        Position randomPosition = positions[Random.Range(0, positions.Count)];
         randomAsteroid.movement.direction = Asteroid.Movement.GetDirection(randomPosition.positionName);
         randomAsteroid.movement.diagonal = Asteroid.Movement.GetRandomDiagonal();
-        randomAsteroid.transform.position = randomPosition.position;
         randomAsteroid.destroyedEvent = asteroidDestroyedEvent;
 
         asteroids.Add(randomAsteroid);
