@@ -11,7 +11,12 @@ public class Asteroid : MonoBehaviour
     private readonly float ySpeed = 1.0f;
     private static readonly float diagonalPositionPossibility = 300;
 
-    private void FixedUpdate()
+    void FixedUpdate()
+    {
+        Move();
+    }
+
+    void Move()
     {
         if (movement.direction == Movement.Direction.UP)
         {
@@ -102,8 +107,9 @@ public class Asteroid : MonoBehaviour
 
     public enum AsteroidType
     {
+        SMALL,
+        MEDIUM,
         BIG,
-        MEDIUM
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -119,7 +125,33 @@ public class Asteroid : MonoBehaviour
         {
             Destroy(rb.gameObject);
             Destroy(collision.gameObject);
+
+            if (type == AsteroidType.BIG)
+            {
+                AsteroidSpawner.BuildChildAsteroid(AsteroidType.MEDIUM, Movement.Direction.LEFT, gameObject.GetComponent<Asteroid>());
+                AsteroidSpawner.BuildChildAsteroid(AsteroidType.MEDIUM, Movement.Direction.RIGHT, gameObject.GetComponent<Asteroid>());
+            }
         }
+    }
+
+    public static Vector2 GetChildAsteroidPosition(Vector2 fatherAsteroidPosition, Movement.Direction direction)
+    {
+        Vector2 position = fatherAsteroidPosition;
+
+        // Always positioned on the diagonal of the father;
+        if (direction == Movement.Direction.LEFT)
+        {
+            position.x -= 2.0f;
+            position.y -= 2.0f;
+        }
+
+        if (direction == Movement.Direction.RIGHT)
+        {
+            position.x += 2.0f;
+            position.y += 2.0f;
+        }
+
+        return position;
     }
 
     public class Movement

@@ -8,13 +8,6 @@ public class Projectile : MonoBehaviour
     private readonly float speed = 400.0f;
     public static float yPositionUpwardsPlayer = 1.0f;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        GameObject player = GameObject.Find("Player");
-        Rigidbody2D playerRb = player.GetComponent<Rigidbody2D>();
-    }
-
     void FixedUpdate()
     {
         if (OutOfBounds())

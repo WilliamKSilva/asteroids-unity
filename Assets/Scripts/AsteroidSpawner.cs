@@ -7,19 +7,14 @@ using UnityEngine.UIElements;
 
 public class AsteroidSpawner : MonoBehaviour
 {
-    public Asteroid asteroid;
-    UnityEvent<Asteroid> asteroidDestroyedEvent;
-    private Sprite[] sprites;
-    private Sprite spriteSpecific;
+    private static UnityEvent<Asteroid> asteroidDestroyedEvent;
     private List<Position> positions = new List<Position>();
-    private List<Asteroid> asteroids = new List<Asteroid>();
+    private static List<Asteroid> asteroids = new List<Asteroid>();
     float timer = 0f;
 
     // Start is called before the first frame update
     void Start()
     {
-        sprites = Resources.LoadAll<Sprite>("Asteroids");
-        spriteSpecific = Resources.Load<Sprite>("Asteroids/meteorBrown_big2");
         asteroidDestroyedEvent = new UnityEvent<Asteroid>();
         asteroidDestroyedEvent.AddListener(AsteroidDestroyed);
     }
@@ -31,32 +26,58 @@ public class AsteroidSpawner : MonoBehaviour
 
         if (timer >= 2)
         {
-            BuildAsteroid();
+            BuildBigAsteroid();
 
             timer = 0f;
         }
     }
 
-    void BuildAsteroid()
+    public void BuildBigAsteroid()
     {
         BuildPositions();
 
-        Sprite randomSprite = sprites[Random.Range(0, sprites.Length)];
+        Object[] mediumAsteroidPrefabs = Resources.LoadAll("Prefabs/Asteroids/Big", typeof(Asteroid));
+        Asteroid randomAsteroid = (Asteroid)mediumAsteroidPrefabs[Random.Range(0, mediumAsteroidPrefabs.Length)];
+
         Position randomPosition = positions[Random.Range(0, positions.Count)];
-        Asteroid randomAsteroid = GameObject.Instantiate(asteroid, randomPosition.position, transform.rotation);
-        randomAsteroid.name = "Asteroid";
-        SpriteRenderer spriteRenderer = randomAsteroid.GetComponent<SpriteRenderer>();
-        spriteRenderer.sprite = spriteSpecific;
-        randomAsteroid.type = Asteroid.AsteroidType.BIG;
+        Asteroid asteroid = Instantiate(randomAsteroid, randomPosition.position, transform.rotation);
+        asteroid.name = "Asteroid";
+        asteroid.movement.direction = Asteroid.Movement.GetDirection(randomPosition.positionName);
+        asteroid.movement.diagonal = Asteroid.Movement.GetDiagonal(Camera.main.WorldToScreenPoint(randomPosition.position));
+        asteroid.destroyedEvent = asteroidDestroyedEvent;
+        asteroid.type = Asteroid.AsteroidType.BIG;
 
-        randomAsteroid.movement.direction = Asteroid.Movement.GetDirection(randomPosition.positionName);
-        randomAsteroid.movement.diagonal = Asteroid.Movement.GetDiagonal(Camera.main.WorldToScreenPoint(randomPosition.position));
-        randomAsteroid.destroyedEvent = asteroidDestroyedEvent;
-
-        asteroids.Add(randomAsteroid);
+        asteroids.Add(asteroid);
     }
 
-    void BuildPositions()
+    public static void BuildChildAsteroid(Asteroid.AsteroidType type, Asteroid.Movement.Direction direction, Asteroid fatherAsteroid)
+    {
+        Asteroid randomAsteroid = null;
+        if (type == Asteroid.AsteroidType.MEDIUM)
+        {
+            Object[] mediumAsteroidPrefabs = Resources.LoadAll("Prefabs/Asteroids/Medium", typeof(Asteroid));
+            randomAsteroid = (Asteroid)mediumAsteroidPrefabs[Random.Range(0, mediumAsteroidPrefabs.Length)];
+            randomAsteroid.type = Asteroid.AsteroidType.MEDIUM;
+        }
+
+        if (type == Asteroid.AsteroidType.SMALL)
+        {
+            Object[] smallAsteroidPrefabs = Resources.LoadAll("Prefabs/Asteroids/Small", typeof(Asteroid));
+            randomAsteroid = (Asteroid)smallAsteroidPrefabs[Random.Range(0, smallAsteroidPrefabs.Length)];
+            randomAsteroid.type = Asteroid.AsteroidType.MEDIUM;
+        }
+
+        Asteroid asteroid = Instantiate(randomAsteroid, Asteroid.GetChildAsteroidPosition(fatherAsteroid.rb.position, direction), Quaternion.identity);
+
+        asteroid.name = "Asteroid";
+        asteroid.movement.direction = direction;
+        asteroid.movement.diagonal = true;
+        asteroid.destroyedEvent = asteroidDestroyedEvent;
+
+        asteroids.Add(asteroid);
+    }
+
+    private void BuildPositions()
     {
         positions.Clear();
 
@@ -92,6 +113,7 @@ public class AsteroidSpawner : MonoBehaviour
 
     void AsteroidDestroyed(Asteroid asteroid)
     {
+        Debug.Log("Asteroid Destroyed");
         int asteroidIndex = asteroids.FindIndex(a => a.GetInstanceID() == asteroid.GetInstanceID());
         if (asteroidIndex > -1)
         {
