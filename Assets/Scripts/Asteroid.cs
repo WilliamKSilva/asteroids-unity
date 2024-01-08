@@ -108,6 +108,13 @@ public class Asteroid : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (collision.gameObject.name == "Player")
+        {
+            Destroy(collision.gameObject);
+
+            return;
+        }
+
         if (collision.gameObject.name == "Projectile")
         {
             Destroy(rb.gameObject);
