@@ -9,11 +9,44 @@ public class Asteroid : MonoBehaviour
     public Movement movement = new Movement();
     private readonly float xSpeed = 1.0f;
     private readonly float ySpeed = 1.0f;
+    private readonly float childAsteroidSpeed = 70.0f;
     private static readonly float diagonalPositionPossibility = 300;
+    public bool childAsteroid = false;
 
     void FixedUpdate()
     {
+        if (childAsteroid)
+        {
+            MoveChild();
+
+            return;
+        }
+
+        // Regular movement
         Move();
+    }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.name == "Player")
+        {
+            Destroy(collision.gameObject);
+
+            return;
+        }
+
+        if (collision.gameObject.name == "Projectile")
+        {
+            Destroy(rb.gameObject);
+            Destroy(collision.gameObject);
+
+            if (type == AsteroidType.BIG)
+            {
+                Projectile projectile = collision.GetComponent<Projectile>();
+                AsteroidSpawner.BuildChildAsteroid(AsteroidType.MEDIUM, Movement.Direction.LEFT, gameObject.GetComponent<Asteroid>(), projectile);
+                AsteroidSpawner.BuildChildAsteroid(AsteroidType.MEDIUM, Movement.Direction.RIGHT, gameObject.GetComponent<Asteroid>(), projectile);
+            }
+        }
     }
 
     void Move()
@@ -95,6 +128,12 @@ public class Asteroid : MonoBehaviour
         }
     }
 
+    void MoveChild()
+    {
+        Debug.Log("Move!");
+        rb.velocity = Time.deltaTime * childAsteroidSpeed * transform.up;
+    }
+
     void DestroyOutOfBounds()
     {
         destroyedEvent.Invoke(this);
@@ -112,46 +151,25 @@ public class Asteroid : MonoBehaviour
         BIG,
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    public static Vector2 GetChildAsteroidPosition(Vector3 projectileDirection, Vector3 fatherAsteroidPosition)
     {
-        if (collision.gameObject.name == "Player")
-        {
-            Destroy(collision.gameObject);
-
-            return;
-        }
-
-        if (collision.gameObject.name == "Projectile")
-        {
-            Destroy(rb.gameObject);
-            Destroy(collision.gameObject);
-
-            if (type == AsteroidType.BIG)
-            {
-                AsteroidSpawner.BuildChildAsteroid(AsteroidType.MEDIUM, Movement.Direction.LEFT, gameObject.GetComponent<Asteroid>());
-                AsteroidSpawner.BuildChildAsteroid(AsteroidType.MEDIUM, Movement.Direction.RIGHT, gameObject.GetComponent<Asteroid>());
-            }
-        }
-    }
-
-    public static Vector2 GetChildAsteroidPosition(Vector2 fatherAsteroidPosition, Movement.Direction direction)
-    {
-        Vector2 position = fatherAsteroidPosition;
-
-        // Always positioned on the diagonal of the father;
-        if (direction == Movement.Direction.LEFT)
-        {
-            position.x -= 2.0f;
-            position.y -= 2.0f;
-        }
-
-        if (direction == Movement.Direction.RIGHT)
-        {
-            position.x += 2.0f;
-            position.y += 2.0f;
-        }
+        Vector3 position = fatherAsteroidPosition;
+        position += projectileDirection;
 
         return position;
+    }
+
+    public static void RotateChildAsteroid(Asteroid asteroid, float projectilRotation)
+    {
+        if (asteroid.movement.direction == Movement.Direction.RIGHT)
+        {
+            asteroid.rb.MoveRotation(-projectilRotation);
+        }
+
+        if (asteroid.movement.direction == Movement.Direction.LEFT)
+        {
+            asteroid.rb.MoveRotation(projectilRotation);
+        }
     }
 
     public class Movement

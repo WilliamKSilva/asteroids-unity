@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
@@ -50,7 +51,7 @@ public class AsteroidSpawner : MonoBehaviour
         asteroids.Add(asteroid);
     }
 
-    public static void BuildChildAsteroid(Asteroid.AsteroidType type, Asteroid.Movement.Direction direction, Asteroid fatherAsteroid)
+    public static void BuildChildAsteroid(Asteroid.AsteroidType type, Asteroid.Movement.Direction direction, Asteroid fatherAsteroid, Projectile projectile)
     {
         Asteroid randomAsteroid = null;
         if (type == Asteroid.AsteroidType.MEDIUM)
@@ -67,12 +68,14 @@ public class AsteroidSpawner : MonoBehaviour
             randomAsteroid.type = Asteroid.AsteroidType.MEDIUM;
         }
 
-        Asteroid asteroid = Instantiate(randomAsteroid, Asteroid.GetChildAsteroidPosition(fatherAsteroid.rb.position, direction), Quaternion.identity);
+        Asteroid asteroid = Instantiate(randomAsteroid, Asteroid.GetChildAsteroidPosition(projectile.rb.transform.up, fatherAsteroid.rb.position), Quaternion.identity);
 
         asteroid.name = "Asteroid";
         asteroid.movement.direction = direction;
         asteroid.movement.diagonal = true;
+        asteroid.childAsteroid = true;
         asteroid.destroyedEvent = asteroidDestroyedEvent;
+        Asteroid.RotateChildAsteroid(asteroid, projectile.rb.rotation);
 
         asteroids.Add(asteroid);
     }
