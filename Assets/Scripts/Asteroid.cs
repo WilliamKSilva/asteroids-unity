@@ -130,7 +130,6 @@ public class Asteroid : MonoBehaviour
 
     void MoveChild()
     {
-        Debug.Log("Move!");
         rb.velocity = Time.deltaTime * childAsteroidSpeed * transform.up;
     }
 

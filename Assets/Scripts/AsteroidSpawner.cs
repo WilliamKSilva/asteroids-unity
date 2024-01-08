@@ -116,7 +116,6 @@ public class AsteroidSpawner : MonoBehaviour
 
     void AsteroidDestroyed(Asteroid asteroid)
     {
-        Debug.Log("Asteroid Destroyed");
         int asteroidIndex = asteroids.FindIndex(a => a.GetInstanceID() == asteroid.GetInstanceID());
         if (asteroidIndex > -1)
         {

@@ -26,7 +26,7 @@ public class Player : MonoBehaviour
     }
 
     // Physics related stuff goes here apparently
-    private void FixedUpdate()
+    void FixedUpdate()
     {
         if (Input.GetKey(KeyCode.W))
         {
