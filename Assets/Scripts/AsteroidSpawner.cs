@@ -14,6 +14,7 @@ public class AsteroidSpawner : MonoBehaviour
     private List<Position> positions = new List<Position>();
     private List<Asteroid> asteroids = new List<Asteroid>();
     float timer = 0f;
+
     // Start is called before the first frame update
     void Start()
     {
