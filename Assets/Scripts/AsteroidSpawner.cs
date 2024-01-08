@@ -49,7 +49,7 @@ public class AsteroidSpawner : MonoBehaviour
         randomAsteroid.type = Asteroid.AsteroidType.BIG;
 
         randomAsteroid.movement.direction = Asteroid.Movement.GetDirection(randomPosition.positionName);
-        randomAsteroid.movement.diagonal = Asteroid.Movement.GetRandomDiagonal();
+        randomAsteroid.movement.diagonal = Asteroid.Movement.GetDiagonal(Camera.main.WorldToScreenPoint(randomPosition.position));
         randomAsteroid.destroyedEvent = asteroidDestroyedEvent;
 
         asteroids.Add(randomAsteroid);

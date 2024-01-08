@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -10,12 +7,9 @@ public class Asteroid : MonoBehaviour
     public Rigidbody2D rb;
     public AsteroidType type;
     public Movement movement = new Movement();
-    private float xSpeed = 0.5f;
-    private float ySpeed = 0.5f;
-
-    void Start()
-    {
-    }
+    private readonly float xSpeed = 1.0f;
+    private readonly float ySpeed = 1.0f;
+    private static readonly float diagonalPositionPossibility = 300;
 
     private void FixedUpdate()
     {
@@ -30,18 +24,13 @@ public class Asteroid : MonoBehaviour
 
             Vector2 position = rb.transform.position;
 
-            if (movement.diagonal)
-            {
-                position.x += xSpeed * Time.fixedDeltaTime;
-            }
-
             position.y += ySpeed * Time.fixedDeltaTime;
             rb.MovePosition(position);
         }
 
         if (movement.direction == Movement.Direction.DOWN)
         {
-            if (GetScreenPosition(rb.position).y <= 0 || GetScreenPosition(rb.position).x >= 0)
+            if (GetScreenPosition(rb.position).y <= 0 || GetScreenPosition(rb.position).x >= Screen.width)
             {
                 DestroyOutOfBounds();
 
@@ -119,7 +108,6 @@ public class Asteroid : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("Projectile Collision");
         if (collision.gameObject.name == "Projectile")
         {
             Destroy(rb.gameObject);
@@ -153,11 +141,27 @@ public class Asteroid : MonoBehaviour
             return Direction.UP;
         }
 
-        public static bool GetRandomDiagonal()
+        public static bool GetDiagonal(Vector2 screenPosition)
         {
-            int random = UnityEngine.Random.Range(0, 2);
+            bool diagonalPossible = false;
+            if (screenPosition.x >= diagonalPositionPossibility && screenPosition.x <= Screen.width - diagonalPositionPossibility)
+            {
+                diagonalPossible = true;
+            }
 
-            return random == 1;
+            if (screenPosition.y >= diagonalPositionPossibility && screenPosition.y <= Screen.height - diagonalPositionPossibility)
+            {
+                diagonalPossible = true;
+            }
+
+            if (diagonalPossible)
+            {
+                int random = Random.Range(0, 2);
+
+                return random == 1;
+            }
+
+            return false;
         }
 
         public enum Direction
