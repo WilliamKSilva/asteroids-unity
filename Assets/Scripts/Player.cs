@@ -1,19 +1,19 @@
-using System.Collections;
-using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public Rigidbody2D rb;
+    private Projectile projectilePrefab;
+
     private readonly float thrust = 4.0f;
     private readonly float rotation = 150.0f;
-
-    public Rigidbody2D rb;
-    public Projectile projectilePrefab;
 
     // Start is called before the first frame update
     void Start()
     {
         rb.drag = 1.0f;
+        projectilePrefab = Resources.Load("Prefabs/Projectiles/Projectile 1").GetComponent<Projectile>();
     }
 
     // Update is called once per frame

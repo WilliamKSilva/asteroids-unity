@@ -6,11 +6,10 @@ public class Asteroid : MonoBehaviour
     public UnityEvent<Asteroid> destroyedEvent;
     public Rigidbody2D rb;
     public AsteroidType type;
-    public Movement movement = new Movement();
+    public Utils.Movement movement = new Utils.Movement();
     private readonly float xSpeed = 1.0f;
     private readonly float ySpeed = 1.0f;
     private readonly float childAsteroidSpeed = 70.0f;
-    private static readonly float diagonalPositionPossibility = 300;
     public bool childAsteroid = false;
 
     void FixedUpdate()
@@ -43,17 +42,17 @@ public class Asteroid : MonoBehaviour
             if (type == AsteroidType.BIG)
             {
                 Projectile projectile = collision.GetComponent<Projectile>();
-                AsteroidSpawner.BuildChildAsteroid(AsteroidType.MEDIUM, Movement.Direction.LEFT, gameObject.GetComponent<Asteroid>(), projectile);
-                AsteroidSpawner.BuildChildAsteroid(AsteroidType.MEDIUM, Movement.Direction.RIGHT, gameObject.GetComponent<Asteroid>(), projectile);
+                AsteroidSpawner.BuildChildAsteroid(AsteroidType.MEDIUM, Utils.Movement.Direction.LEFT, gameObject.GetComponent<Asteroid>(), projectile);
+                AsteroidSpawner.BuildChildAsteroid(AsteroidType.MEDIUM, Utils.Movement.Direction.RIGHT, gameObject.GetComponent<Asteroid>(), projectile);
             }
         }
     }
 
     void Move()
     {
-        if (movement.direction == Movement.Direction.UP)
+        if (movement.direction == Utils.Movement.Direction.UP)
         {
-            if (GetScreenPosition(rb.position).y >= Screen.height || GetScreenPosition(rb.position).x >= Screen.width)
+            if (Utils.ObjectOutOfBounds(movement.direction, rb.position))
             {
                 DestroyOutOfBounds();
 
@@ -66,9 +65,9 @@ public class Asteroid : MonoBehaviour
             rb.MovePosition(position);
         }
 
-        if (movement.direction == Movement.Direction.DOWN)
+        if (movement.direction == Utils.Movement.Direction.DOWN)
         {
-            if (GetScreenPosition(rb.position).y <= 0 || GetScreenPosition(rb.position).x >= Screen.width)
+            if (Utils.ObjectOutOfBounds(movement.direction, rb.position))
             {
                 DestroyOutOfBounds();
 
@@ -87,9 +86,9 @@ public class Asteroid : MonoBehaviour
             rb.MovePosition(position);
         }
 
-        if (movement.direction == Movement.Direction.RIGHT)
+        if (movement.direction == Utils.Movement.Direction.RIGHT)
         {
-            if (GetScreenPosition(rb.position).x >= Screen.width || GetScreenPosition(rb.position).y >= Screen.height)
+            if (Utils.ObjectOutOfBounds(movement.direction, rb.position))
             {
                 DestroyOutOfBounds();
 
@@ -107,9 +106,9 @@ public class Asteroid : MonoBehaviour
             rb.MovePosition(position);
         }
 
-        if (movement.direction == Movement.Direction.LEFT)
+        if (movement.direction == Utils.Movement.Direction.LEFT)
         {
-            if (GetScreenPosition(rb.position).x <= 0 || GetScreenPosition(rb.position).y >= Screen.height)
+            if (Utils.ObjectOutOfBounds(movement.direction, rb.position))
             {
                 DestroyOutOfBounds();
 
@@ -138,11 +137,6 @@ public class Asteroid : MonoBehaviour
         destroyedEvent.Invoke(this);
     }
 
-    Vector2 GetScreenPosition(Vector2 position)
-    {
-        return Camera.main.WorldToScreenPoint(position);
-    }
-
     public enum AsteroidType
     {
         SMALL,
@@ -160,72 +154,14 @@ public class Asteroid : MonoBehaviour
 
     public static void RotateChildAsteroid(Asteroid asteroid, float projectilRotation)
     {
-        if (asteroid.movement.direction == Movement.Direction.RIGHT)
+        if (asteroid.movement.direction == Utils.Movement.Direction.RIGHT)
         {
             asteroid.rb.MoveRotation(-projectilRotation);
         }
 
-        if (asteroid.movement.direction == Movement.Direction.LEFT)
+        if (asteroid.movement.direction == Utils.Movement.Direction.LEFT)
         {
             asteroid.rb.MoveRotation(projectilRotation);
-        }
-    }
-
-    public class Movement
-    {
-        public Direction direction;
-        public bool diagonal;
-
-        public static Direction GetDirection(AsteroidSpawner.PositionNames position)
-        {
-            if (position == AsteroidSpawner.PositionNames.LEFT_WITH_RANDOM_Y)
-            {
-                return Direction.RIGHT;
-            }
-
-            if (position == AsteroidSpawner.PositionNames.RIGHT_WITH_RANDOM_Y)
-            {
-                return Direction.LEFT;
-            }
-
-            if (position == AsteroidSpawner.PositionNames.TOP_WITH_RANDOM_X)
-            {
-                return Direction.DOWN;
-            }
-
-            // Bottom with random X
-            return Direction.UP;
-        }
-
-        public static bool GetDiagonal(Vector2 screenPosition)
-        {
-            bool diagonalPossible = false;
-            if (screenPosition.x >= diagonalPositionPossibility && screenPosition.x <= Screen.width - diagonalPositionPossibility)
-            {
-                diagonalPossible = true;
-            }
-
-            if (screenPosition.y >= diagonalPositionPossibility && screenPosition.y <= Screen.height - diagonalPositionPossibility)
-            {
-                diagonalPossible = true;
-            }
-
-            if (diagonalPossible)
-            {
-                int random = Random.Range(0, 2);
-
-                return random == 1;
-            }
-
-            return false;
-        }
-
-        public enum Direction
-        {
-            UP,
-            DOWN,
-            RIGHT,
-            LEFT,
         }
     }
 }

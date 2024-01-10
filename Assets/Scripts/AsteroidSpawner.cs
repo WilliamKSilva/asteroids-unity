@@ -1,10 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Data;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.UIElements;
 
 public class AsteroidSpawner : MonoBehaviour
 {
@@ -43,15 +39,15 @@ public class AsteroidSpawner : MonoBehaviour
         Position randomPosition = positions[Random.Range(0, positions.Count)];
         Asteroid asteroid = Instantiate(randomAsteroid, randomPosition.position, transform.rotation);
         asteroid.name = "Asteroid";
-        asteroid.movement.direction = Asteroid.Movement.GetDirection(randomPosition.positionName);
-        asteroid.movement.diagonal = Asteroid.Movement.GetDiagonal(Camera.main.WorldToScreenPoint(randomPosition.position));
+        asteroid.movement.direction = Utils.Movement.GetDirection(randomPosition.positionName);
+        asteroid.movement.diagonal = Utils.Movement.GetDiagonal(Camera.main.WorldToScreenPoint(randomPosition.position));
         asteroid.destroyedEvent = asteroidDestroyedEvent;
         asteroid.type = Asteroid.AsteroidType.BIG;
 
         asteroids.Add(asteroid);
     }
 
-    public static void BuildChildAsteroid(Asteroid.AsteroidType type, Asteroid.Movement.Direction direction, Asteroid fatherAsteroid, Projectile projectile)
+    public static void BuildChildAsteroid(Asteroid.AsteroidType type, Utils.Movement.Direction direction, Asteroid fatherAsteroid, Projectile projectile)
     {
         Asteroid randomAsteroid = null;
         if (type == Asteroid.AsteroidType.MEDIUM)
@@ -90,28 +86,28 @@ public class AsteroidSpawner : MonoBehaviour
         Vector2 leftWithRandomYSpawn = Camera.main.ScreenToWorldPoint(new Vector2(-5, spawnY));
 
 
-        positions.Add(new Position(leftWithRandomYSpawn, PositionNames.LEFT_WITH_RANDOM_Y));
+        positions.Add(new Position(leftWithRandomYSpawn, Utils.PositionNames.LEFT_WITH_RANDOM_Y));
 
         // Top with random X
         float spawnX = Random.Range
                 (0, Screen.width);
         Vector2 topWithRandomXSpawn = Camera.main.ScreenToWorldPoint(new Vector2(spawnX, Screen.height + 5));
 
-        positions.Add(new Position(topWithRandomXSpawn, PositionNames.TOP_WITH_RANDOM_X));
+        positions.Add(new Position(topWithRandomXSpawn, Utils.PositionNames.TOP_WITH_RANDOM_X));
 
         // Right with random Y
         spawnY = Random.Range
                 (0, Screen.height);
         Vector2 rightWithRandomY = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width + 5, spawnY));
 
-        positions.Add(new Position(rightWithRandomY, PositionNames.RIGHT_WITH_RANDOM_Y));
+        positions.Add(new Position(rightWithRandomY, Utils.PositionNames.RIGHT_WITH_RANDOM_Y));
 
         // Bottom with random X
         spawnX = Random.Range
                (0, Screen.width);
         Vector2 bottomWithRandomX = Camera.main.ScreenToWorldPoint(new Vector2(spawnX, -5));
 
-        positions.Add(new Position(bottomWithRandomX, PositionNames.BOTTOM_WITH_RANDOM_X));
+        positions.Add(new Position(bottomWithRandomX, Utils.PositionNames.BOTTOM_WITH_RANDOM_X));
     }
 
     void AsteroidDestroyed(Asteroid asteroid)
@@ -127,21 +123,13 @@ public class AsteroidSpawner : MonoBehaviour
 
     private class Position
     {
-        public Position(Vector2 position, PositionNames positionName)
+        public Position(Vector2 position, Utils.PositionNames positionName)
         {
             this.position = position;
             this.positionName = positionName;
         }
 
         public Vector2 position;
-        public PositionNames positionName;
-    }
-
-    public enum PositionNames
-    {
-        LEFT_WITH_RANDOM_Y,
-        RIGHT_WITH_RANDOM_Y,
-        TOP_WITH_RANDOM_X,
-        BOTTOM_WITH_RANDOM_X
+        public Utils.PositionNames positionName;
     }
 }
