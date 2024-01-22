@@ -315,7 +315,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 1518189748}
-  projectilePrefab: {fileID: -3540277069296111193, guid: c6cf5d81bb1a0f94e8a013e8509fe9d6, type: 3}
 --- !u!50 &1518189748
 Rigidbody2D:
   serializedVersion: 4
