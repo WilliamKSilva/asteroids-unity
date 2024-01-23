@@ -9,7 +9,7 @@ public class EnemySpawner : MonoBehaviour
     void Start()
     {
         BuildPositions();
-        // BuildEnemy();
+        BuildEnemy();
     }
 
     // Update is called once per frame
@@ -19,7 +19,7 @@ public class EnemySpawner : MonoBehaviour
 
         if (timer >= 4.0f)
         {
-            // BuildEnemy();
+            BuildEnemy();
             timer = 0.0f;
         }
     }

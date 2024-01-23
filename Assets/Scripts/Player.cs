@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    // TODO: add "Flare" mechanic so the player can counter enemies projectiles
+    // TODO: add UI for the game start and basic features
     public Rigidbody2D rb;
     private Projectile shotProjectilePrefab;
     private Projectile flareProjectilePrefab;

@@ -9,12 +9,16 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 434200420327487269, guid: d143c61db6ee086449f0be536b7d5d38, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.00297
+      objectReference: {fileID: 0}
+    - target: {fileID: 434200420327487269, guid: d143c61db6ee086449f0be536b7d5d38, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 434200420327487269, guid: d143c61db6ee086449f0be536b7d5d38, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.00048
       objectReference: {fileID: 0}
     - target: {fileID: 434200420327487269, guid: d143c61db6ee086449f0be536b7d5d38, type: 3}
       propertyPath: m_LocalPosition.z
@@ -55,6 +59,22 @@ PrefabInstance:
     - target: {fileID: 2946303915767960034, guid: d143c61db6ee086449f0be536b7d5d38, type: 3}
       propertyPath: m_Name
       value: Flare
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563009386279254570, guid: d143c61db6ee086449f0be536b7d5d38, type: 3}
+      propertyPath: m_Size.x
+      value: 0.2779168
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563009386279254570, guid: d143c61db6ee086449f0be536b7d5d38, type: 3}
+      propertyPath: m_Size.y
+      value: 0.27709395
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563009386279254570, guid: d143c61db6ee086449f0be536b7d5d38, type: 3}
+      propertyPath: m_Offset.x
+      value: -0.0027980208
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563009386279254570, guid: d143c61db6ee086449f0be536b7d5d38, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.014759994
       objectReference: {fileID: 0}
     - target: {fileID: 6563009386279254570, guid: d143c61db6ee086449f0be536b7d5d38, type: 3}
       propertyPath: m_IsTrigger
