@@ -6,7 +6,7 @@ using static UnityEngine.RuleTile.TilingRuleOutput;
 public class Enemy : MonoBehaviour
 {
     public Rigidbody2D rb;
-    private Player player;
+    private Player player = null;
     private Projectile projectilePrefab;
     public readonly float xSpeed = 2.0f;
     public readonly float ySpeed = 2.0f;
@@ -21,7 +21,11 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         projectilePrefab = Resources.Load("Prefabs/Projectiles/Projectile 2").GetComponent<Projectile>();
-        player = GameObject.Find("Player").GetComponent<Player>();
+        GameObject playerGameObject = GameObject.Find("Player");
+        if (playerGameObject)
+        {
+            player = playerGameObject.GetComponent<Player>();
+        }
     }
 
     void FixedUpdate()
@@ -109,6 +113,21 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.name == "Player")
+        {
+            collision.gameObject.SetActive(false);
+            Destroy(rb.gameObject);
+        }
+
+        if (collision.gameObject.name == "Projectile")
+        {
+            Destroy(collision.gameObject);
+            Destroy(rb.gameObject);
+        }
+    }
+
     public void RotateBasedOnMovement()
     {
         if (movement.direction == Utils.Movement.Direction.LEFT)
@@ -147,7 +166,7 @@ public class Enemy : MonoBehaviour
 
     void LookAtPlayer()
     {
-        if (player)
+        if (player && player.isActiveAndEnabled)
         {
             rb.transform.up = rb.transform.position - player.transform.position;
         }
@@ -155,10 +174,13 @@ public class Enemy : MonoBehaviour
 
     void Shot()
     {
-        Vector3 projectilePosition = rb.transform.position;
-        projectilePosition -= rb.transform.up;
-        Projectile projectile = GameObject.Instantiate(projectilePrefab, projectilePosition, transform.rotation);
-        projectile.rb.transform.up = player.rb.transform.position - rb.transform.position;
-        projectile.name = "Projectile";
+        if (player && player.isActiveAndEnabled)
+        {
+            Vector3 projectilePosition = rb.transform.position;
+            projectilePosition -= rb.transform.up;
+            Projectile projectile = GameObject.Instantiate(projectilePrefab, projectilePosition, transform.rotation);
+            projectile.rb.transform.up = player.rb.transform.position - rb.transform.position;
+            projectile.name = "Projectile Enemy";
+        }
     }
 }

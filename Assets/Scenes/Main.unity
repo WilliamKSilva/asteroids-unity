@@ -159,7 +159,11 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
+<<<<<<< HEAD
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+=======
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
+>>>>>>> master
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -276,12 +280,20 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+<<<<<<< HEAD
   m_Sprite: {fileID: 21300000, guid: 78f767c1192b08a46be150f1a9cdb334, type: 3}
+=======
+  m_Sprite: {fileID: 21300000, guid: 15be6666fb67281469f1e65fbeb866ca, type: 3}
+>>>>>>> master
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
+<<<<<<< HEAD
   m_Size: {x: 1, y: 1}
+=======
+  m_Size: {x: 0.99, y: 0.75}
+>>>>>>> master
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -311,7 +323,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1518189743}
   m_Enabled: 1
   m_EditorHideFlags: 0
+<<<<<<< HEAD
   m_Script: {fileID: 11500000, guid: a9e504a337bc6ed4fb1c34ef95a25c91, type: 3}
+=======
+  m_Script: {fileID: 11500000, guid: 802666db0b94495499c51428d8e9fbc4, type: 3}
+>>>>>>> master
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 1518189748}
@@ -403,7 +419,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1815861919}
   m_Enabled: 1
   m_EditorHideFlags: 0
+<<<<<<< HEAD
   m_Script: {fileID: 11500000, guid: 7e70fd4e2a921b347adea122ee11adf8, type: 3}
+=======
+  m_Script: {fileID: 11500000, guid: 34c3c418758fade4993b05c698f70db5, type: 3}
+>>>>>>> master
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &1815861921
@@ -462,7 +482,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 2054908637}
   m_Enabled: 1
   m_EditorHideFlags: 0
+<<<<<<< HEAD
   m_Script: {fileID: 11500000, guid: b5c27a736255a6542a912b8dd2b3fe11, type: 3}
+=======
+  m_Script: {fileID: 11500000, guid: 001cd8bdcc4b69149bb5e5113b254e63, type: 3}
+>>>>>>> master
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807

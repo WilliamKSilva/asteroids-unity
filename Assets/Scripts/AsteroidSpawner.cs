@@ -34,7 +34,7 @@ public class AsteroidSpawner : MonoBehaviour
         BuildPositions();
 
         Object[] mediumAsteroidPrefabs = Resources.LoadAll("Prefabs/Asteroids/Big", typeof(Asteroid));
-        Asteroid randomAsteroid = (Asteroid)mediumAsteroidPrefabs[Random.Range(0, mediumAsteroidPrefabs.Length)];
+        Asteroid randomAsteroid = (Asteroid)mediumAsteroidPrefabs[0];
 
         Position randomPosition = positions[Random.Range(0, positions.Count)];
         Asteroid asteroid = Instantiate(randomAsteroid, randomPosition.position, transform.rotation);
@@ -53,15 +53,15 @@ public class AsteroidSpawner : MonoBehaviour
         if (type == Asteroid.AsteroidType.MEDIUM)
         {
             Object[] mediumAsteroidPrefabs = Resources.LoadAll("Prefabs/Asteroids/Medium", typeof(Asteroid));
-            randomAsteroid = (Asteroid)mediumAsteroidPrefabs[Random.Range(0, mediumAsteroidPrefabs.Length)];
+            randomAsteroid = (Asteroid)mediumAsteroidPrefabs[0];
             randomAsteroid.type = Asteroid.AsteroidType.MEDIUM;
         }
 
         if (type == Asteroid.AsteroidType.SMALL)
         {
             Object[] smallAsteroidPrefabs = Resources.LoadAll("Prefabs/Asteroids/Small", typeof(Asteroid));
-            randomAsteroid = (Asteroid)smallAsteroidPrefabs[Random.Range(0, smallAsteroidPrefabs.Length)];
-            randomAsteroid.type = Asteroid.AsteroidType.MEDIUM;
+            randomAsteroid = (Asteroid)smallAsteroidPrefabs[0];
+            randomAsteroid.type = Asteroid.AsteroidType.SMALL;
         }
 
         Asteroid asteroid = Instantiate(randomAsteroid, Asteroid.GetChildAsteroidPosition(projectile.rb.transform.up, fatherAsteroid.rb.position), Quaternion.identity);

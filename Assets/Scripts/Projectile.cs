@@ -5,6 +5,7 @@ public class Projectile : MonoBehaviour
     public Rigidbody2D rb;
     private readonly float speed = 400.0f;
     public static float yPositionUpwardsPlayer = 1.0f;
+    public static float yPositionBackwardsPlayer = -1.0f;
 
     void FixedUpdate()
     {
@@ -22,14 +23,26 @@ public class Projectile : MonoBehaviour
     {
         if (collision.gameObject.name == "Player")
         {
+            collision.gameObject.SetActive(false);
+            Destroy(rb.gameObject);
+        }
+
+        if (collision.gameObject.name == "Projectile")
+        {
             Destroy(collision.gameObject);
             Destroy(rb.gameObject);
-        }   
+        }
+
+        if (collision.gameObject.name == "Flare")
+        {
+            Destroy(collision.gameObject);
+            Destroy(rb.gameObject);
+        }
     }
 
     void Move()
     {
-        // Position
+        /* Position */
         rb.velocity = speed * Time.fixedDeltaTime * rb.transform.up;
     }
 

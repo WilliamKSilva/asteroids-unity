@@ -30,7 +30,6 @@ public class Asteroid : MonoBehaviour
         if (collision.gameObject.name == "Player")
         {
             Destroy(collision.gameObject);
-
             return;
         }
 
@@ -44,6 +43,13 @@ public class Asteroid : MonoBehaviour
                 Projectile projectile = collision.GetComponent<Projectile>();
                 AsteroidSpawner.BuildChildAsteroid(AsteroidType.MEDIUM, Utils.Movement.Direction.LEFT, gameObject.GetComponent<Asteroid>(), projectile);
                 AsteroidSpawner.BuildChildAsteroid(AsteroidType.MEDIUM, Utils.Movement.Direction.RIGHT, gameObject.GetComponent<Asteroid>(), projectile);
+            }
+
+            if (type == AsteroidType.MEDIUM)
+            {
+                Projectile projectile = collision.GetComponent<Projectile>();
+                AsteroidSpawner.BuildChildAsteroid(AsteroidType.SMALL, Utils.Movement.Direction.LEFT, gameObject.GetComponent<Asteroid>(), projectile);
+                AsteroidSpawner.BuildChildAsteroid(AsteroidType.SMALL, Utils.Movement.Direction.RIGHT, gameObject.GetComponent<Asteroid>(), projectile);
             }
         }
     }
