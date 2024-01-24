@@ -6,7 +6,7 @@ using static UnityEngine.RuleTile.TilingRuleOutput;
 public class Enemy : MonoBehaviour
 {
     public Rigidbody2D rb;
-    private Player player = null;
+    public Player player;
     private Projectile projectilePrefab;
     public readonly float xSpeed = 2.0f;
     public readonly float ySpeed = 2.0f;
@@ -21,11 +21,8 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         projectilePrefab = Resources.Load("Prefabs/Projectiles/Projectile 2").GetComponent<Projectile>();
-        GameObject playerGameObject = GameObject.Find("Player");
-        if (playerGameObject)
-        {
-            player = playerGameObject.GetComponent<Player>();
-        }
+        player = GameState.gameState.player;
+        
     }
 
     void FixedUpdate()

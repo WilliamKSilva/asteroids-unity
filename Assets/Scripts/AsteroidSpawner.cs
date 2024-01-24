@@ -19,6 +19,11 @@ public class AsteroidSpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!GameState.gameState.started)
+        {
+            return;
+        }
+
         timer += Time.deltaTime;
 
         if (timer >= 2)
